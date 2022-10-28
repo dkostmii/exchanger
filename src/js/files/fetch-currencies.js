@@ -1,6 +1,17 @@
 import $ from "jquery";
-import { throwIfNotANumber } from "./exchanger/model/util.js";
+import { throwIfNotANumber, throwIfNotAString } from "./exchanger/model/util.js";
 
+import { currencyFactors } from "../config/currencies.js";
+
+/**
+ * An array containing cryptocurrency info
+ * 
+ * **id** - currency identifier
+ * 
+ * **name** - human-readable currency name
+ * 
+ * **short** - short currency name
+ */
 export const cryptocurrencies = [
   { id: "bitcoin", name: "Bitcoin", short: "BTC" },
   { id: "ethereum", name: "Ethereum", short: "ETH" },
@@ -35,6 +46,44 @@ export const settings = {
    "headers": {}
 }
 
+/**
+ * Finds a factor for cryptocurrency to control its price.
+ * @param {{ id: string }} crypto A cryptocurrency object with defined id.
+ * @returns A non-negative number.
+ */
+export function findCurrencyFactor(crypto) {
+  if (typeof crypto !== 'object') {
+    throw new TypeError(`Expected crypto to be an object. Got ${typeof crypto}`);
+  }
+
+  if (!('id' in crypto)) {
+    throw new TypeError('Expected crypto.id to be defined');
+  }
+
+  throwIfNotAString(crypto.id);
+  
+  const factorObj = currencyFactors.filter(c => c.id === crypto.id)[0];
+
+  if (typeof factorObj === 'object' &&
+            'factor' in factorObj &&
+            typeof factorObj.factor === 'number') {
+
+    const { factor } = factorObj;
+
+    if (factor < 0) {
+      throw new Error(`Expected factor to be non-negative. Got factor ${factor} for cryptoId ${crypto.id}`);
+    }
+
+    return factor;
+  }
+
+  return 1;
+}
+
+/**
+ * Loads the cryptocurrency data from API.
+ * @returns A Promise containing either an **Array** of currency data or **string** with error.
+ */
 export async function loadCryptos() {
   return new Promise((res, rej) => {
 
@@ -43,7 +92,9 @@ export async function loadCryptos() {
       res(cryptocurrencies.map(crypto => {
         const { usd } = response[crypto.id];
 
-        let price = usd;
+        throwIfNotANumber(usd);
+
+        const price = usd * findCurrencyFactor(crypto);
 
         throwIfNotANumber(price);
 
@@ -61,14 +112,20 @@ export async function loadCryptos() {
   });
 }
 
+/**
+ * Formats a number to fixed precision if needed.
+ * 
+ * Precision is `8` digits after period. And is applied to `x < 1e-4`
+ * 
+ * @param {number | string} x A number to format. Can be either number of string.
+ * @returns A **string** containing formatted number.
+ */
 export function preCheck(x) {
   if (typeof x === 'string' || x instanceof String) {
     x = parseFloat(x);
   }
 
-  const preCheckLength = 8;
-
-  if (x > 0 && (x < 1e-4 || x.toString().length > preCheckLength + 2)) return x.toFixed(preCheckLength);
+  if (x < 1e-4) return x.toFixed(8);
   
   return x.toString();
 }

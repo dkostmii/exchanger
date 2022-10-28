@@ -1,4 +1,4 @@
-import scriptConfig from "./request-script-main/scriptConfig.js";
+import scriptConfig from "../../config/exchanger.js";
 
 const tag = scriptConfig.fieldTag;
 

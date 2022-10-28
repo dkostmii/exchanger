@@ -1,7 +1,7 @@
 import { loadCryptos } from "../fetch-currencies.js";
 import { minAmountUsdt, usdt } from './model/usdt.js';
 
-import storageConfig from "../storageConfig.js";
+import storageConfig from "../../config/storage.js";
 
 import { exFormId } from "./views/util.js";
 
