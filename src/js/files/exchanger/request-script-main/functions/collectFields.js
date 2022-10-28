@@ -1,4 +1,4 @@
-import scriptConfig from '../scriptConfig.js';
+import scriptConfig from '../../../../config/exchanger.js';
 
 const collectFields = () => {
     const tag = scriptConfig.fieldTag;

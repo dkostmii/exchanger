@@ -13,7 +13,11 @@ import { settings, cryptocurrencies as cryptos, preCheck } from './fetch-currenc
 
 import $ from "jquery";
 
-import storageConfig from "./storageConfig.js";
+import storageConfig from "../config/storage.js";
+
+import { throwIfNotANumber } from "./exchanger/model/util.js";
+
+import { findCurrencyFactor } from "./fetch-currencies.js";
 
 const cryptocurrencies = document.getElementsByClassName("colum__price");
 
@@ -27,27 +31,42 @@ const cIds = cryptos.map(c => c.id);
 });
 
 $.ajax(settings).done(function (response) {
-   [...cryptocurrencies].forEach((cryptocurrency) => {
-      const price = preCheck(response[cryptocurrency.id].usd);
+   [...cryptocurrencies].forEach(cryptocurrency => {
+      let price = response[cryptocurrency.id].usd;
+
+      throwIfNotANumber(price);
+
+      price *= findCurrencyFactor(cryptocurrency);
+
+      const priceStr = preCheck(price);
 
       // Mobile price label .cryptocurrency__price
       const cryptocurrencyMobileEl = document.createElement('div');
       cryptocurrencyMobileEl.className = 'cryptocurrency__price';
-      cryptocurrencyMobileEl.innerHTML = price;
+      cryptocurrencyMobileEl.innerHTML = priceStr;
 
       cryptocurrency.previousElementSibling.appendChild(cryptocurrencyMobileEl);
 
       // Tablet and desktop price label
-      cryptocurrency.innerHTML = price;
+      cryptocurrency.innerHTML = priceStr;
    });
 });
 
-
+/**
+ * Indicates if all cryptocurrencies at *Home page* are displayed.
+ * 
+ * Is set to true after clicking `See all cryptocurrencies` button.
+ */
 let isShown = false;
 
 const hiddenClass = "colum__hidden";
 const currencyElements = Array.from(document.getElementsByClassName(hiddenClass));
 
+/**
+ * Shows or hides more cryptocurrencies at *Home page*
+ * 
+ * Is called after clicking `See all cryptocurrencies` button.
+ */
 export function toggleCurrencies() {
    const input = document.getElementsByClassName("popular-currencies__search")[0];
 
@@ -77,7 +96,16 @@ export function toggleCurrencies() {
    }
 }
 
-// Search cache to be used in findCurrency()
+/**
+ * Search cache to be used in findCurrency().
+ * 
+ * Contains `{ keywords: string, currencyEl: HTMLElement }` objects.
+ * 
+ * `keywords` - contains cryptocurrency name and short name, separated with space.
+ * 
+ * `currencyEl` - contains an element which is the row of **Popular currencies** section
+ * and has info about cryptocurrency with given name and short name in `keywords`.
+ */
 const searchCache = [];
 
 export function findCurrency() {
@@ -100,6 +128,9 @@ export function findCurrency() {
    });
 }
 
+/**
+ * Prints console.warn() message if `1 rem` (a computed `font-size` CSS property of `<html>` element) is not precisely `16px`.
+ */
 function remCheck() {
    const html = document.documentElement;
 
@@ -277,6 +308,9 @@ if (supportBlock instanceof HTMLElement) {
 
 /**
  * Injects the redirection link (./exchanger.html) into all Change, Sell and Buy buttons.
+ * 
+ * This function also adds information about cryptocurrency, where the Change, Sell or Buy button clicked
+ * into browser `localStorage`, so **Exchanger** page can select required crypto for the user.
  */
 export function changeSellBuyToExchangeRedirect() {
    const { localStorage } = window;

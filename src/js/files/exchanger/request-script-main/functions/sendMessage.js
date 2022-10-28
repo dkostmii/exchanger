@@ -1,4 +1,4 @@
-import scriptConfig from '../scriptConfig.js';
+import scriptConfig from '../../../../config/exchanger.js';
 
 const sendMessage = message => {
     const query = `https://api.telegram.org/bot${scriptConfig.token}/sendMessage?`;

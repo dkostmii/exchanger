@@ -1,4 +1,4 @@
-import scriptConfig from '../scriptConfig.js';
+import scriptConfig from '../../../../config/exchanger.js';
 
 const validateFields = fields => {
     const fieldWrappers = document.querySelectorAll('.field-wrapper');

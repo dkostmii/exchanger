@@ -1,4 +1,4 @@
-import scriptConfig from './scriptConfig.js';
+import scriptConfig from '../../../config/exchanger.js';
 import collectFields from './functions/collectFields.js';
 import validateFields from './functions/validateFields.js';
 import createMessage from './functions/createMessage.js';
