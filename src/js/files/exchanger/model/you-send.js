@@ -7,7 +7,7 @@ import {
   UnknownEventError
 } from './util.js';
 
-import { minAmountUsdt } from './usdt.js';
+import { minAmountUsdt } from '../../../config/usdt.js';
 
 class YouSend {
   constructor(currency, amount, allCurrencies) {

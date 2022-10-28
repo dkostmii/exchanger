@@ -1,5 +1,5 @@
 import { loadCryptos } from "../fetch-currencies.js";
-import { minAmountUsdt, usdt } from './model/usdt.js';
+import { minAmountUsdt, usdt } from '../../config/usdt.js';
 
 import storageConfig from "../../config/storage.js";
 

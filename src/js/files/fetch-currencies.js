@@ -36,6 +36,9 @@ export const cryptocurrencies = [
 const idsParam = "ids=" + cryptocurrencies.map(c => c.id).join(",");
 const vsCurrenciesParam = "vs_currencies=usd";
 
+/**
+ * The url to Coingecko API V3. See {@link https://www.coingecko.com/en/api/documentation Coingecko API documentation}
+ */
 const url = `https://api.coingecko.com/api/v3/simple/price?${idsParam}&${vsCurrenciesParam}`;
 
 export const settings = {
@@ -81,7 +84,7 @@ export function findCurrencyFactor(crypto) {
 }
 
 /**
- * Loads the cryptocurrency data from API.
+ * Loads the cryptocurrency data from API. See {@link https://www.coingecko.com/en/api/documentation Coingecko API documentation}
  * @returns A Promise containing either an **Array** of currency data or **string** with error.
  */
 export async function loadCryptos() {
@@ -118,7 +121,7 @@ export async function loadCryptos() {
  * Precision is `8` digits after period. And is applied to `x < 1e-4`
  * 
  * @param {number | string} x A number to format. Can be either number of string.
- * @returns A **string** containing formatted number.
+ * @returns {string} A string containing formatted number.
  */
 export function preCheck(x) {
   if (typeof x === 'string' || x instanceof String) {

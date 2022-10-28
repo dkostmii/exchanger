@@ -20,9 +20,9 @@ To build project, follow these steps:
 
     To test the builden static website, run
 
-        ```bash
-        npm run serve-static
-        ```
+    ```bash
+    npm run serve-static
+    ```
 
     This will start **browser-sync** server at `dist/` folder.
 

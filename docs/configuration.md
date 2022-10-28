@@ -10,6 +10,12 @@ The application configuration files are placed in `src/js/config/` folder:
 
 - [`currencies.js`](../src/js/config/currencies.js) defines `currencyFactors` to control crypto price for each cryptocurrency.
 
+    To obtain cryptocurrency identifier (the `id` property), proceed to [`fetch-currencies.js`](../src/js/files/fetch-currencies.js) file.
+
+    You might also want to read [Coingecko API Documentation](https://www.coingecko.com/en/api/documentation).
+
 - [`exchanger.js`](../src/js/config/exchanger.js) contains a data for **Exchanger** page logic, including data to connect to Telegram.
 
 - [`storage.js`](../src/js/config/storage.js) contains a token names for `localStorage`, where to store cryptocurrency id between redirect from **Home** page to **Exchanger** page. As a result, cryptocurrency is selected at **Exchanger**.
+
+- [`usdt.js`](../src/js/config/usdt.js) contains data about USDT currency and equivalent `minAmountUsdt` amount for any currency to be exchanged.

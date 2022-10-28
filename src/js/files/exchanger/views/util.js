@@ -2,7 +2,7 @@ import { throwIfNotACurrency, throwIfNotPairOfCurrencies, throwIfNotAString } fr
 import YouSendModel from '../model/you-send.js';
 import YouReceiveModel from "../model/you-receive.js";
 
-import { minAmountUsdt, usdt } from "../model/usdt.js";
+import { minAmountUsdt } from "../../../config/usdt.js";
 
 import $ from 'jquery';
 
@@ -150,9 +150,9 @@ export function emptyNumberInputCheck(input) {
 }
 
 /**
- * preCheckInput() function for the views. Do not confuse with preCheck() from fetch-currencies, which is for Popular currencies table.
+ * `preCheckInput()` function for the **Exchanger** views. Do not confuse with `preCheck()` from `fetch-currencies.js`, which is for **Popular currencies** section at **Home page**.
  * @param {Number | string} value A number to pre check before displaying.
- * @returns {string}
+ * @returns {string} A string containing formatted number.
  */
 export function preCheckInput(x) {
   if (typeof x === 'string' || x instanceof String) {
