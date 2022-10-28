@@ -100,7 +100,19 @@ export function findCurrency() {
    });
 }
 
+function remCheck() {
+   const html = document.documentElement;
+
+   const { fontSize } = window.getComputedStyle(html);
+
+   if (fontSize !== '16px') {
+      console.warn(`Warning! 1 rem !== 16px. Got: ${fontSize}`);
+   }
+}
+
 window.addEventListener('load', () => {
+   remCheck();
+
   // Create the search cache here
   const cryptocurrencyNames = Array.from(document.getElementsByClassName("cryptocurrency__name"));
   const cryptocurrencyShots = Array.from(document.getElementsByClassName("cryptocurrency__short"));
@@ -222,6 +234,8 @@ window.addEventListener('load', () => {
 });
 
 window.addEventListener('resize', () => {
+   remCheck();
+
    if (window.matchMedia('(max-width: 767.98px)').matches) {
       desktop = false;
       disableMenu();
