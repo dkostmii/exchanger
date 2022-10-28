@@ -212,29 +212,22 @@ export function enableSearch() {
 }
 
 window.addEventListener('load', () => {
-   if (window.matchMedia('(max-width: 768px)').matches) {
+   if (window.matchMedia('(max-width: 767.98px)').matches) {
       desktop = false;
       disableMenu();
-   }
-   
-   if (window.matchMedia('(min-width: 768px)').matches) {
+   } else if (window.matchMedia('(min-width: 767.98px)').matches) {
       desktop = true;
+      enableMenu();
    }
 });
 
 window.addEventListener('resize', () => {
-   if (window.matchMedia('(min-width: 768px)').matches) {
-      if (!menuState) {
-         desktop = true;
-         enableMenu();
-      }
-   }
-
-   if (window.matchMedia('(max-width: 768px)').matches) {
-      if (menuState) {
-         desktop = false;
-         disableMenu();
-      }
+   if (window.matchMedia('(max-width: 767.98px)').matches) {
+      desktop = false;
+      disableMenu();
+   } else if (window.matchMedia('(min-width: 767.98px)').matches) {
+      desktop = true;
+      enableMenu();
    }
 });
 
@@ -311,11 +304,11 @@ export function changeSellBuyToExchangeRedirect() {
 }
 
 /**
- * Closes the menu after link clicked
+ * Closes the menu after link clicked (mobile)
  */
 export function autoCloseMenu() {
    $('header a, footer a').on('click', () => {
-      if (menuState) {
+      if (!desktop && menuState) {
          disableMenu();
       }
    });
