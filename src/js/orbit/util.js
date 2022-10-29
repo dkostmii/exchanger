@@ -172,8 +172,16 @@ export function lerp(value1, value2, time) {
  */
 
 /**
+ * The quadratic interpolation result data. Is returned after calling {@link interpolant interpolant function}.
+ * 
+ * @typedef {Object} interpolationResult
+ * @property {number} angle The current angle in `degrees`.
+ * @property {boolean} done Indicates whether interpolation is finished.
+ */
+
+/**
  * The interpolant function for interpolating the angle.
- * @typedef {() => { angle: number, done: boolean }} interpolant
+ * @typedef {() => interpolationResult} interpolant
  * @returns {interpolationData} The interpolation data.
  */
 
@@ -182,7 +190,7 @@ export function lerp(value1, value2, time) {
  * @param {number} minAngle Starting angle 
  * @param {number} maxAngle End angle
  * @param {number} maxSpeed Max rate of change of the angle.
- * @returns {interpolant} The function which returns object with angle and done properties.
+ * @returns {interpolant} An {@link interpolant interpolant function}.
  */
 export function aqerp(minAngle, maxAngle, maxSpeed) {
   if (maxAngle < minAngle) {
