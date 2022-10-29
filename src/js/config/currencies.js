@@ -1,12 +1,24 @@
 /**
- * An array containing cryptocurrency price factors.
+ * An object containing factor of specified cryptocurrency price.
  * 
- * A factor must be non-negative.
+ * {@link currencyFactor.id} - currency identifier.
  * 
- * **id** - currency identifier. You can find this in `cryptocurrencies` array in `fetch-currencies.js` file.
+ * You can find this in `cryptocurrencies` array in `fetch-currencies.js` file.
  * 
- * **factor** - a number which multiplies a price.
+ * {@link currencyFactor.factor } - a number which multiplies a price.
+ * 
  * For example, `factor: 0.5` halves the price and `factor: 2` doubles.
+ * 
+ * **Must be non-negative.**
+ * 
+ * @typedef {{ id: string, factor: number }} currencyFactor
+ */
+
+/**
+ * An array containing {@link currencyFactor cryptocurrency price factors}.
+ * 
+ * @constant currencyFactors
+ * @type {currencyFactor[]}
  */
 export const currencyFactors = [
   //{ id: 'bitcoin', factor: 0.2 }

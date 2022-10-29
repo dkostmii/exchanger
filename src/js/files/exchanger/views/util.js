@@ -6,8 +6,14 @@ import { minAmountUsdt } from "../../../config/usdt.js";
 
 import $ from 'jquery';
 
+/**
+ * The identifier of **Exchanger** `<form>` element from `exchanger.html` page.
+ */
 export const exFormId = '#ex-form';
 
+/**
+ * A separator used to separate some data, for example currency pair names.
+ */
 export const separator = ' | ';
 
 export function htmlEncode(text) {
@@ -56,7 +62,15 @@ export function getFieldText(youSendModel, youReceiveModel) {
   return `Send <span >${preCheckInput(youSendAmount)} ${youSendCrypto.short}</span> to this address/card and we will send you <span>${preCheckInput(youReceiveAmount)} ${youReceiveCrypto.short}.</span> Then click the button <span>“I send”</span>`
 }
 
+/**
+ * This error is thrown, when there is not element found in DOM tree.
+ */
 export class ElementNotFoundError extends Error {
+
+  /**
+   * Creates a new instance of {@link ElementNotFoundError}
+   * @param {string} elementName Could be a class, id, or other relevant element property, which identifies the element.
+   */
   constructor(elementName) {
     super(`Unable to locate ${elementName} element.`);
     this.name = 'Element Not Found Error';
@@ -77,6 +91,17 @@ export function getCurrencyResultValue(model) {
   return `${preCheckInput(model.amount)}${separator}${model.currency.short}`;
 }
 
+/**
+ * Removes repeating occurrences of {@link char} in {@link text}.
+ * @param {string} text A string with text to be processed.
+ * @param {string} char A character to search occurrences of.
+ * 
+ * Must be precisely single character (`char.length === 1`).
+ * 
+ * Only the first character is keeped, all next characters are removed.
+ * 
+ * @returns {string} A string containing at most one {@link char} character, which is the first occurrence.
+ */
 function replaceMultipleOfCharWithFirst(text, char) {
   if (!(typeof text === 'string' || text instanceof String)) {
     throw new TypeError('Expected text to be a string.');
@@ -84,6 +109,10 @@ function replaceMultipleOfCharWithFirst(text, char) {
 
   if (!(typeof char === 'string' || char instanceof String)) {
     throw new TypeError('Expected char to be a string.');
+  }
+
+  if (char.length !== 1) {
+    throw new Error('Expected char to have length === 1');
   }
 
   let count = 0;
@@ -104,6 +133,10 @@ function replaceMultipleOfCharWithFirst(text, char) {
   return result.join('');
 }
 
+/**
+ * Sanitizes the `<input type="number">` element value to contain only digits `[0-9]` and period `.`
+ * @param {HTMLInputElement} input A input to be sanitized. Must have `type="number"` or it will not be affected.
+ */
 export function sanitizeNumberInput(input) {
   if (!(input instanceof HTMLInputElement)) {
     throw new TypeError('Expected input to be HTMLInputElement');

@@ -211,8 +211,20 @@ export function toggleMenu() {
    }
 }
 
+/** Indicates if the search field is displayed on mobile version.
+ * 
+ * See {@link enableSearch()} function.
+ */
 let searchEnabled = false;
 
+/**
+ * Enables the search field on mobile devices.
+ * 
+ * There is search button on mobile version, clicking which call {@link enableSearch()}, so
+ * the search field is displayed.
+ * 
+ * **It's not possible to hide the search in current implementation.**
+ */
 export function enableSearch() {
    const searchInput = document.getElementsByClassName("popular-currencies__search")[0];
    const searchButton = document.getElementsByClassName("button__search")[0];

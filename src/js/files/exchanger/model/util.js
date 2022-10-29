@@ -1,6 +1,6 @@
 /**
  * If true, assumes that empty array is not valid array for some type.
- * This might cause errors to be thrown (in throwIfNot() clauses).
+ * This might cause errors to be thrown (in {@link throwIfNot()} clauses).
  */
 const requireNonEmptyArray = true;
 
@@ -113,6 +113,32 @@ export class UnknownEventError extends TypeError {
   }
 }
 
+/**
+ * A currency object.
+ * 
+ * **id** - currency identifier
+ * 
+ * **name** - human-readable currency name
+ * 
+ * **short** - short currency name
+ * 
+ * **price** - price of cryptocurrency in USD
+ * 
+ * @typedef {{ id: string, name: string, short: string, price: number }} currency
+ */
+
+/**
+ * A {@link currency} pair.
+ * @typedef {[ currency, currency ]} currencyPair
+ */
+
+/**
+ * Creates an Array with {@link currencyPair}. Does not include identical assets in the pair.
+ * 
+ * That means, it does not produce pair `[{ id: 'usdt', ... }, { id: 'usdt', ...}]`.
+ * @param {currency[]} currencies An array of currencies, see {@link currency} type.
+ * @returns {currencyPair[]} An array of currency pairs, see {@link currencyPair}.
+ */
 export function createCurrencyPairs(currencies) {
   throwIfNotArrayOfCurrencies(currencies);
 

@@ -17,8 +17,6 @@ class CurrencyView {
 
     this.model = currencyModel;
 
-    //const formElement = document.getElementById(exFormId);
-
     if (!(formElement instanceof Element)) {
       throw new ElementNotFoundError(exFormId);
     }
