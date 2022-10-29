@@ -17,6 +17,8 @@
 /**
  * An array containing {@link currencyFactor cryptocurrency price factors}.
  * 
+ * **If you want control USDT price, proceed to `usdt.js`**
+ * 
  * @constant currencyFactors
  * @type {currencyFactor[]}
  */

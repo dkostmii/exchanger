@@ -13,6 +13,13 @@ export const exFormId = '#ex-form';
 
 /**
  * A separator used to separate some data, for example currency pair names.
+ * 
+ * For example, if separator is ` | `
+ * 
+ * then resulting string is `USDT | Bitcoin`.
+ * 
+ * @constant separator
+ * @type {string}
  */
 export const separator = ' | ';
 

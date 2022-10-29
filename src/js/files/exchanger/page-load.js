@@ -1,5 +1,7 @@
 import { loadCryptos } from "../fetch-currencies.js";
-import { minAmountUsdt, usdt } from '../../config/usdt.js';
+import { minAmountUsdt } from '../../config/usdt.js';
+
+import usdt from './normalized-usdt.js';
 
 import storageConfig from "../../config/storage.js";
 
@@ -56,15 +58,11 @@ export async function exchangerPageLoad() {
 /**
  * A currency object.
  * 
- * **id** - currency identifier
- * 
- * **name** - human-readable currency name
- * 
- * **short** - short currency name
- * 
- * **price** - price of cryptocurrency in USD
- * 
- * @typedef {{ id: string, name: string, short: string, price: number }} currency
+ * @typedef {Object} currency
+ * @property {string} id A currency identifier
+ * @property {string} name A human-readable currency name
+ * @property {string} short A short currency name
+ * @property {number} price A price of cryptocurrency in USD or USDT.
  */
 
 /**

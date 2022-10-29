@@ -9,7 +9,7 @@ import {
 
 import { ElementNotFoundError } from "./exchanger/views/util.js";
 
-import { settings, cryptocurrencies as cryptos, preCheck } from './fetch-currencies.js';
+import { settings, cryptocurrencies as cryptos, preCheck, convertUsdToUsdt } from './fetch-currencies.js';
 
 import $ from "jquery";
 
@@ -36,6 +36,7 @@ $.ajax(settings).done(function (response) {
 
       throwIfNotANumber(price);
 
+      price = convertUsdToUsdt(price);
       price *= findCurrencyFactor(cryptocurrency);
 
       const priceStr = preCheck(price);
@@ -97,14 +98,21 @@ export function toggleCurrencies() {
 }
 
 /**
+ * Maps string keywords to currency item in **Popular currencies** section at **Home** page.
+ * 
+ * @typedef {Object} currencyElSearchMap
+ * @property {string} keywords Contains cryptocurrency name and short name, separated with space.
+ * @property {HTMLElement} currencyEl Contains an element which is the row of **Popular currencies** section
+ * and has info about cryptocurrency with given name and short name in `keywords`.
+ */
+
+/**
  * Search cache to be used in findCurrency().
  * 
- * Contains `{ keywords: string, currencyEl: HTMLElement }` objects.
- * 
- * `keywords` - contains cryptocurrency name and short name, separated with space.
- * 
- * `currencyEl` - contains an element which is the row of **Popular currencies** section
- * and has info about cryptocurrency with given name and short name in `keywords`.
+ * It is an Array of {@link currencyElSearchMap}.
+ *
+ * @constant searchCache
+ * @type {currencyElSearchMap[]}
  */
 const searchCache = [];
 
