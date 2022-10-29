@@ -13,7 +13,18 @@ import { htmlEncode } from './util.js';
 
 import $ from 'jquery';
 
+/**
+ * Represents a view logic for **You receive** field at **Exchanger** page.
+ * 
+ * Uses {@link YouReceiveModel} as state storage.
+ */
 class YouReceiveView {
+  /**
+   * Creates a new instance of {@link YouReceiveView}.
+   * 
+   * @param {YouReceiveModel} youReceiveModel A model where to store view state.
+   * @param {Element} formElement A form {@link Element}.
+   */
   constructor(youReceiveModel, formElement) {
     if (!(youReceiveModel instanceof YouReceiveModel)) {
       throw new TypeError('Expected youReceiveModel to be YouReceiveModel');
@@ -109,6 +120,9 @@ class YouReceiveView {
     this.model.addEventListener('updateAllCurrencies', this.allCurrenciesListener);
   }
 
+  /**
+   * Initialized the view, calling the view's listeners.
+   */
   init() {
     this.currencyListener(this.model.currency);
     this.amountListener({ amount: this.model.amount });

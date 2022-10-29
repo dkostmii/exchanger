@@ -8,15 +8,10 @@ import {
 } from "./modules.js";
 
 import { ElementNotFoundError } from "./exchanger/views/util.js";
-
 import { settings, cryptocurrencies as cryptos, preCheck, convertUsdToUsdt } from './fetch-currencies.js';
-
 import $ from "jquery";
-
 import storageConfig from "../config/storage.js";
-
 import { throwIfNotANumber } from "./exchanger/model/util.js";
-
 import { findCurrencyFactor } from "./fetch-currencies.js";
 
 const cryptocurrencies = document.getElementsByClassName("colum__price");
@@ -116,6 +111,11 @@ export function toggleCurrencies() {
  */
 const searchCache = [];
 
+/**
+ * Finds the currency in **Popular currencies** section at **Home** page.
+ * 
+ * Is called after `.popular-currencies__search` input value changed.
+ */
 export function findCurrency() {
    const input = document.getElementsByClassName("popular-currencies__search")[0];
    
@@ -186,6 +186,9 @@ const menuBodyNav = document.getElementsByClassName('menu__body')[0];
 const iconMenu = document.querySelectorAll('.menu__icons > .icon-menu')[0];
 const header = document.getElementsByClassName('header')[0];
 
+/**
+ * Shows the header menu.
+ */
 function enableMenu() {
    menuState = true;
 
@@ -198,6 +201,9 @@ function enableMenu() {
    iconMenu.classList.add('icon-menu__active');
 }
 
+/**
+ * Hides the header menu.
+ */
 function disableMenu() {
    menuState = false;
 
@@ -210,6 +216,13 @@ function disableMenu() {
    }
 }
 
+/**
+ * Toggles the header menu.
+ * 
+ * Is used strictly on mobile devices with hamburger menu button.
+ * 
+ * On desktop devices the menu **is always displayed**.
+ */
 export function toggleMenu() {
    if (menuState) {
       disableMenu();

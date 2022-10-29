@@ -1,3 +1,5 @@
+import CurrencyView from '../views/currency.js';
+
 import {
   throwIfNotPairOfCurrencies,
   throwIfNotArrayOfCurrencyPairs,
@@ -9,7 +11,24 @@ import {
 
 import YouSendReceiveModel from './send-receive.js';
 
+/**
+ * @typedef {import('../../fetch-currencies.js').currency} currency
+ */
+
+/**
+ * @typedef {import('./util.js').currencyDataPair} currencyDataPair
+ */
+
+/**
+ * Represents a model for {@link CurrencyView}.
+ */
 class Currency {
+  /**
+   * Creates a new instance of {@link Currency} model.
+   * @param {*} currencyPair A {@link currencyDataPair} object.
+   * @param {*} youSendReceiveModel An instance of {@link YouSendReceiveModel}.
+   * @param {*} allCurrencyPairs An array of {@link currencyDataPair currencyDataPair[]}.
+   */
   constructor(currencyPair, youSendReceiveModel, allCurrencyPairs) {
     throwIfNotPairOfCurrencies(currencyPair);
 
@@ -41,6 +60,9 @@ class Currency {
     this.attachListeners();
   }
 
+  /**
+   * Attaches the listeners to inner models.
+   */
   attachListeners() {
     this.youSendReceiveModel.youSendModel
       .addEventListener('updateCurrency', this.youSendUpdateCurrencyListener);
@@ -49,6 +71,9 @@ class Currency {
       .addEventListener('updateCurrency', this.youReceiveUpdateCurrencyListener);
   }
 
+  /**
+   * Detaches the listeners from inner models.
+   */
   detachListeners() {
     this.youSendReceiveModel.youSendModel
       .removeEventListener('updateCurrency', this.youSendUpdateCurrencyListener);
@@ -57,6 +82,9 @@ class Currency {
       .removeEventListener('updateCurrency', this.youReceiveUpdateCurrencyListener);
   }
 
+  /**
+   * Detaches and then attaches again the listeners from inner models.
+   */
   refreshListeners() {
     this.detachListeners();
     this.attachListeners();
@@ -96,6 +124,12 @@ class Currency {
     throwIfNotPairOfCurrencies(this.currencyPair);
   }
 
+  /**
+   * Adds an event listener callback to model, to track the event of {@link event type} of the model
+   * 
+   * @param {'updateCurrencyPair' | 'updateAllCurrencyPairs'} event An type of event to attach listener to.
+   * @param {(e: any) => void} callback A callback accepting some data, if available.
+   */
   addEventListener(event, callback) {
     throwIfNotAString(event);
     throwIfNotAFunction(callback);
@@ -112,6 +146,14 @@ class Currency {
     }
   }
 
+  /**
+   * Removes event listener from the model, if added previously.
+   * 
+   * If no event listener is found, the {@link Error} is thrown.
+   * 
+   * @param {'updateCurrencyPair' | 'updateAllCurrencyPairs'} event An type of event to remove listener from.
+   * @param {(e: any) => void} callback A callback provided in {@link addEventListener()}.
+   */
   removeEventListener(event, callback) {
     throwIfNotAString(event);
     throwIfNotAFunction(callback);
@@ -162,14 +204,24 @@ class Currency {
     youReceiveModel.amountUsdt = receiveAmountUsdt;
   }
 
+  /**
+   * Gets the current {@link currencyDataPair} stored in the model.
+   */
   get currencyPair() {
     return this.pair;
   }
 
+  /**
+   * Gets the {@link currencyDataPair currencyDataPair[]} array stored in the model.
+   */
   get allCurrencyPairs() {
     return this.cryptoPairs;
   }
 
+  /**
+   * Sets a new {@link currencyDataPair} to be stored in the model.
+   * @param {currencyDataPair} currencyPair A new currency pair to be stored in the model.
+   */
   set currencyPair(currencyPair) {
     throwIfNotPairOfCurrencies(currencyPair);
 
@@ -178,6 +230,10 @@ class Currency {
     this.currencyPairUpdateListeners.forEach(callback => callback(this.pair));
   }
 
+  /**
+   * Sets a new {@link currencyDataPair currencyDataPair[]} array to be stored in the model.
+   * @param {allCurrencyPairs} allCurrencyPairs A new {@link currencyDataPair currencyDataPair[]} array to be stored in the model.
+   */
   set allCurrencyPairs(allCurrencyPairs) {
     throwIfNotArrayOfCurrencyPairs(allCurrencyPairs);
 

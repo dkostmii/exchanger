@@ -10,10 +10,21 @@ import { addBreakPointChangeHandler } from './adaptivity.js';
 // Use the styles implicitly
 import '../../scss/orbit/orbit.scss';
 
+/**
+ * Gets a numeic value of CSS property.
+ * 
+ * @param {string} propStr A CSS property value.
+ * @returns {number} A numeric value of CSS property.
+ */
 function getValue(propStr) {
   return parseFloat(propStr.replace(/[^\.\d,]/g, ""));
 }
 
+/**
+ * An entry point for orbit graphics.
+ * 
+ * @returns A handle for orbit graphics
+ */
 function Orbit() {
   const root = document.getElementById("orbits");
   

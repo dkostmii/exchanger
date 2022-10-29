@@ -1,17 +1,14 @@
 import $ from "jquery";
-import { throwIfNotACurrency, throwIfNotANumber, throwIfNotAString } from "./exchanger/model/util.js";
+import { throwIfNotANumber, throwIfNotAString } from "./exchanger/model/util.js";
 
 import { currencyFactors } from "../config/currencies.js";
 import { usdt } from "../config/usdt.js";
 
 /**
- * An array containing cryptocurrency info
+ * An array of {@link currencyPartial}.
  * 
- * **id** - currency identifier
- * 
- * **name** - human-readable currency name
- * 
- * **short** - short currency name
+ * @constant cryptocurrencies
+ * @type {currencyPartial[]}
  */
 export const cryptocurrencies = [
   { id: "bitcoin", name: "Bitcoin", short: "BTC" },
@@ -161,6 +158,17 @@ export function preCheck(x) {
 }
 
 /**
+ * A partial currency object.
+ * 
+ * This object misses a `price` property.
+ * 
+ * @typedef {Object} currencyPartial
+ * @property {string} id A currency identifier
+ * @property {string} name A human-readable currency name
+ * @property {string} short A short currency name
+ */
+
+/**
  * A currency object.
  * 
  * @typedef {Object} currency
@@ -169,4 +177,3 @@ export function preCheck(x) {
  * @property {string} short A short currency name
  * @property {number} price A price of cryptocurrency in USD or USDT.
  */
-

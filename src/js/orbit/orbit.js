@@ -1,11 +1,22 @@
 import { getPositionOnEllipse, parseGradientString } from './util.js';
 
+import { injectToken } from './config.js';
+
+/**
+ * The result of animation.
+ * 
+ * @typedef {Object} animationResult
+ * @property {string} title The title, is colored with accent color. Can contain {animated} value.
+ * @property {string} subtitle The subtitle, is colored with default color. Can contain {animated} value.
+ */
+
 /**
  * Contains a range for animating a number
  * @typedef {Object} animateNumber
  * @property { number } start A number to start with. Must be positive.
  * @property { number } end Animate until number. Must be greater than start.
  * @property { number } seconds Length of animation in seconds.
+ * @property { number | undefined } delay A delay for animation in seconds.
  */
 
 /**
@@ -32,9 +43,19 @@ import { getPositionOnEllipse, parseGradientString } from './util.js';
  * Contains different methods for changing parameters of orbit
  * @typedef {Object} orbitHandle
  * @property {(newAngleDegrees: number) => void} changeAngle Changes the position of moon on the orbit circle.
+ * @property {() => void} detach Clears all async operations inside element.
  */
 
-class AnimateMoon {
+/**
+ * A class implementing title and subtitle text animation of moon.
+ */
+export class AnimateMoon {
+  /**
+   * Creates an instance of animation for the moon.
+   * 
+   * @param {(animationResult) => void} onAnimationStep A callback to call if the animation frame started.
+   * @param {moonData} param1 
+   */
   constructor(onAnimationStep, { title, subtitle, animateNumber }) {
     this.started = false;
 
@@ -78,7 +99,7 @@ class AnimateMoon {
 
     this.onAnimationStep = onAnimationStep;
 
-    if (animateNumber.delay) {
+    if (typeof animateNumber.delay === 'number' && animateNumber.delay) {
       this.delay = animateNumber.delay;
 
       this.onAnimationStep({
@@ -88,14 +109,23 @@ class AnimateMoon {
     }
   }
 
+  /**
+   * Replaces the {@link injectToken} in {@link str} with {@link AnimateMoon.current} value.
+   * 
+   * @param {string} str A string in which to replace the {@link injectToken}.
+   * @returns {string} A string containing {@link AnimateMoon.current} value at {@link injectToken} place.
+   */
   injectValue(str) {
     if (!(typeof str === 'string' || (str instanceof String))) {
       throw new TypeError(`Expected str to be a string. Got: ${typeof str}`);
     }
 
-    return str.replace('{animated}', `${this.current.toFixed()}`);
+    return str.replace(injectToken, `${this.current.toFixed()}`);
   }
 
+  /**
+   * Creates an interval to perform animation with.
+   */
   makeInterval() {
     this.interval = setInterval(() => {
       if (this.increment < (this.b - this.current)) {
@@ -112,6 +142,9 @@ class AnimateMoon {
     }, this.animationFrame);
   }
 
+  /**
+   * Starts the animation immediately or after a delay.
+   */
   start() {
     if (!this.started) {
       this.started = true;
@@ -125,6 +158,9 @@ class AnimateMoon {
     }
   }
 
+  /**
+   * Stops the animation immediately.
+   */
   stop() {
     if (this.started) {
       clearInterval(this.interval);
@@ -139,7 +175,7 @@ class AnimateMoon {
 /**
  * Creates SVG element with orbit circle and a moon with labels.
  * @param { createOrbitConfiguration } orbitConfiguration Contains data to render orbit circle.
- * @returns {orbitHandle} A handle to manipulate the rendered orbit (for animation purposes).
+ * @returns {orbitHandle} A {@link orbitHandle handle} to manipulate the rendered orbit (for animation purposes).
  */
 export function createOrbit({
   width,

@@ -11,7 +11,11 @@
 следует его расскоментировать
 */
 
-// Include orbit scripts
+/**
+ * Imports the orbit script.
+ * 
+ * Those scripts bootstrap planet orbit graphics at **Home** page.
+ */
 import './orbit/index.js';
 
 // Включить/выключить FLS (Full Logging System) (в работе)
@@ -230,6 +234,7 @@ import selectHandler from './files/exchanger/select.js';
 import checkLengthHandler from './files/exchanger/check-length.js';
 import copyHandler from './files/exchanger/copy.js';
 import cardFormatHandler from './files/exchanger/card-format.js';
+//import reverseHandler from './files/exchanger/reverse.js';
 import submitHandler from './files/exchanger/request-script-main/submitHandler.js';
 
 import { exchangerPageLoad } from './files/exchanger/page-load.js';
@@ -252,7 +257,7 @@ if(currentPage == 'Exchanger') {
 	copyHandler();
 	cardFormatHandler();
 	submitHandler();
-
+	//reverseHanlder();
 	exchangerPageLoad();
 	autoCloseMenu();
 } else if (currentPage == 'Home') {

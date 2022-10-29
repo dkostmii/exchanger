@@ -1,9 +1,33 @@
 import { getCurrentBreakPointId } from "./adaptivity.js";
 
+import { AnimateMoon } from './orbit.js';
+
+/**
+ * A token to replace with animated text value.
+ * 
+ * See {@link AnimateMoon.injectValue()}.
+ */
+export const injectToken = '{animated}';
+
+/**
+ * A maximum speed of moon at the orbit.
+ * 
+ * @constant maxSpeed
+ * @type {number}
+ */
 export const maxSpeed = 5;
 
+/**
+ * An alias for {@link Number.POSITIVE_INFINITY}.
+ */
 export const inf = Number.POSITIVE_INFINITY;
 
+/**
+ * Defines a breakpoints for planet orbit graphics.
+ * 
+ * @constant breakPoints
+ * @type {[number, number][]} A tuple of `min-width` and `max-width` values in `px` units.
+ */
 export const breakPoints = [
   [0, 480],
   [480, 834],
@@ -11,11 +35,35 @@ export const breakPoints = [
   [1300, inf],
 ];
 
+/**
+ * The duration of each moon at the orbit animation.
+ *
+ * @type {number} The duration of animation in seconds.
+ *
+ */
 const numberAnimationDurationSeconds = 10;
 
+/**
+ * `5 years on the market` moon title animation duration.
+ * 
+ * Starts with `1 years` and ends with `5 years`.
+ * 
+ * @type {number} The duration of animation in seconds.
+ */
 const fiveYearsAnimationDurationSeconds = 1;
+
+/**
+ * The delay of `5 years on the market` moon title animation.
+ * 
+ * @type {number} The duration of delay in seconds.
+ */
 const fiveYearsDelaySeconds = 4;
 
+/**
+ * Defines a partial data for orbit graphics.
+ * 
+ * Missing part is `renderToElement` property, which is added dynamically.
+ */
 const orbitsPartialData = [
   // [0, 428],
   [{
@@ -27,7 +75,7 @@ const orbitsPartialData = [
       // Starting angle
       angleDegrees: 130,
       maxAngle: 210,
-      title: '{animated} years',
+      title: `${injectToken} years`,
       animateNumber: {
         start: 1,
         end: 5,
@@ -45,7 +93,7 @@ const orbitsPartialData = [
       // Starting angle
       angleDegrees: 100,
       maxAngle: 180,
-      title: '${animated}',
+      title: `\$${injectToken}`,
       animateNumber: {
         start: 0,
         end: 864000,
@@ -62,7 +110,7 @@ const orbitsPartialData = [
       // Starting angle
       angleDegrees: 90,
       maxAngle: 140,
-      title: '{animated}',
+      title: `${injectToken}`,
       animateNumber: {
         start: 0,
         end: 3545,
@@ -82,7 +130,7 @@ const orbitsPartialData = [
       // Starting angle
       angleDegrees: 200,
       maxAngle: 285,
-      title: '{animated} years',
+      title: `${injectToken} years`,
       animateNumber: {
         start: 1,
         end: 5,
@@ -100,7 +148,7 @@ const orbitsPartialData = [
       // Starting angle
       angleDegrees: 130,
       maxAngle: 220,
-      title: '${animated}',
+      title: `\$${injectToken}`,
       animateNumber: {
         start: 0,
         end: 864000,
@@ -117,7 +165,7 @@ const orbitsPartialData = [
       // Starting angle
       angleDegrees: 90,
       maxAngle: 160,
-      title: '{animated}',
+      title: `${injectToken}`,
       animateNumber: {
         start: 0,
         end: 3545,
@@ -137,7 +185,7 @@ const orbitsPartialData = [
       // Starting angle
       angleDegrees: 200,
       maxAngle: 310,
-      title: '{animated} years',
+      title: `${injectToken} years`,
       animateNumber: {
         start: 1,
         end: 5,
@@ -155,7 +203,7 @@ const orbitsPartialData = [
       // Starting angle
       angleDegrees: 130,
       maxAngle: 220,
-      title: '${animated}',
+      title: `\$${injectToken}`,
       animateNumber: {
         start: 0,
         end: 864000,
@@ -172,7 +220,7 @@ const orbitsPartialData = [
       // Starting angle
       angleDegrees: 90,
       maxAngle: 160,
-      title: '{animated}',
+      title: `${injectToken}`,
       animateNumber: {
         start: 0,
         end: 3545,
@@ -192,7 +240,7 @@ const orbitsPartialData = [
       // Starting angle
       angleDegrees: 90,
       maxAngle: 190,
-      title: '{animated} years',
+      title: `${injectToken} years`,
       animateNumber: {
         start: 1,
         end: 5,
@@ -210,7 +258,7 @@ const orbitsPartialData = [
       // Starting angle
       angleDegrees: 90,
       maxAngle: 170,
-      title: '${animated}',
+      title: `\$${injectToken}`,
       animateNumber: {
         start: 0,
         end: 864000,
@@ -227,7 +275,7 @@ const orbitsPartialData = [
       // Starting angle
       angleDegrees: 90,
       maxAngle: 130,
-      title: '{animated}',
+      title: `${injectToken}`,
       animateNumber: {
         start: 0,
         end: 3545,
@@ -238,6 +286,11 @@ const orbitsPartialData = [
   }],
 ];
 
+/**
+ * Gets the partial orbit graphics data for current breakpoint.
+ * 
+ * @returns An object containing partial orbit graphics data for current breakpoint.
+ */
 export function getOrbitsPartialData() {
   const id = getCurrentBreakPointId();
 

@@ -9,7 +9,18 @@ import { exFormId } from './util.js';
 
 import $ from 'jquery';
 
+/**
+ * Represents a view logic for **Choose cryptocurrency** field at **Exchanger** page.
+ * 
+ * Combines with {@link YouSendReceiveView} to link **Choose cryptocurrency**, **You send**, **You receive** fields and **Swap button**.
+ */
 class CurrencyView {
+  /**
+   * Creates a new instance of {@link CurrencyView}.
+   * 
+   * @param {CurrencyModel} currencyModel A model where to store view state.
+   * @param {Element} formElement A form {@link Element}.
+   */
   constructor(currencyModel, formElement) {
     if (!(currencyModel instanceof CurrencyModel)) {
       throw new TypeError('Expected currencyModel to be CurrencyModel');
@@ -83,12 +94,20 @@ class CurrencyView {
     this.youSendReceiveView.model.youReceiveModel.addEventListener('updateCurrency', this.updateFieldText);
   }
 
+  /**
+   * Initialized the view, calling the view's listeners.
+   */
   init() {
     this.currencyPairListener(this.model.currencyPair);
     this.allCurrencyPairsListener(this.model.allCurrencyPairs);
     this.updateFieldText();
   }
 
+  /**
+   * Updates the text inside `.field-text` element with current exchange data.
+   * 
+   * See {@link getFieldText()} definition for details.
+   */
   updateFieldText() {
     // Get the child view models
     const youSendModel = this.youSendReceiveView.model.youSendModel;

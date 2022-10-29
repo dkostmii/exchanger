@@ -6,7 +6,20 @@ import { exFormId } from './util.js';
 import YouSendView from './you-send.js';
 import YouReceiveView from './you-receive.js';
 
+/**
+ * Combines {@link YouSendView} and {@link YouReceiveView} views into single view.
+ * 
+ * Adds the swapping functionality to **Exchanger** page by bootstrapping **Swap** button.
+ * 
+ * Uses {@link YouSendReceiveModel} as state storage.
+ */
 class YouSendReceiveView {
+  /**
+   * Creates a new instance of {@link YouSendReceiveView}.
+   * 
+   * @param {YouSendReceiveModel} youSendReceiveModel A model where to store view state.
+   * @param {Element} formElement A form {@link Element}.
+   */
   constructor(youSendReceiveModel, formElement) {
     if (!(youSendReceiveModel instanceof YouSendReceiveModel)) {
       throw new TypeError('Expected youSendReceiveModel to be YouSendReceiveModel');

@@ -133,6 +133,14 @@ export function getPositionOnEllipse(width, height, angleDegrees) {
   return { x, y };
 }
 
+/**
+ * A function for linear interpolation between {@link value1} and {@link value2}.
+ * 
+ * @param {number} value1 A value to interpolate from ({@link time} === 0).
+ * @param {number} value2 A value to interpolate to ({@link time} === 1).
+ * @param {number} time A factor of interpolation. If {@link time} < 0 clamps to {@link value1}, or if {@link time} > 1 clamps to {@link value2}. Otherwise {@link lerp()} produces a linear combination of {@link value1} and {@link value2}.
+ * @returns 
+ */
 export function lerp(value1, value2, time) {
   if (typeof value1 !== "number") {
     throw new TypeError(`Expected value1 to be number. Got ${typeof value1}`);

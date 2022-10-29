@@ -2,6 +2,11 @@ import { inf } from './config.js';
 
 import { breakPoints } from './config.js';
 
+/**
+ * Gets the current breakpoint id.
+ * 
+ * @returns {number} A zero-based index in {@link breakPoints} array.
+ */
 export function getCurrentBreakPointId() {
   const mediaQueries = breakPoints.map(bp => {
     const [min, max] = bp;
@@ -35,6 +40,11 @@ export function getCurrentBreakPointId() {
   throw new Error(`No breakpoint match. Client-width: ${window.innerWidth}, breakpoints: ${breakPoints}.`);
 }
 
+/**
+ * Adds handler to `window` `'resize'` event, which grabs the `currentBreakPointId`.
+ * 
+ * @param {(currentBreakPointId: number) => void} handler 
+ */
 export function addBreakPointChangeHandler(handler) {
   if (!(handler instanceof Function)) {
     throw new TypeError(`Expected handler to be a Function. Got ${typeof handler}`);

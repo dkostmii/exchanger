@@ -7,13 +7,7 @@
 export const minAmountUsdt = 150;
 
 /**
- * A currency object.
- * 
- * @typedef {Object} currency
- * @property {string} id A currency identifier
- * @property {string} name A human-readable currency name
- * @property {string} short A short currency name
- * @property {number} price A price of cryptocurrency in USD or USDT.
+ * @typedef {import('../files/fetch-currencies.js').currency} currency
  */
 
 /**
@@ -30,5 +24,5 @@ export const minAmountUsdt = 150;
  * @constant usdt
  * @type {currency}
  */
-export const usdt = { id: "usdt", name: "USDT", short: "USDT", price: 2 };
+export const usdt = { id: "usdt", name: "USDT", short: "USDT", price: 1 };
 

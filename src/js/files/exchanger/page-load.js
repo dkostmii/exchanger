@@ -56,13 +56,7 @@ export async function exchangerPageLoad() {
 }
 
 /**
- * A currency object.
- * 
- * @typedef {Object} currency
- * @property {string} id A currency identifier
- * @property {string} name A human-readable currency name
- * @property {string} short A short currency name
- * @property {number} price A price of cryptocurrency in USD or USDT.
+ * @typedef {import('../fetch-currencies.js').currency} currency
  */
 
 /**

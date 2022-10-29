@@ -1,8 +1,9 @@
 import YouSendModel from './you-send.js';
 import YouReceiveModel from './you-receive.js';
 
+import YouSendReceiveView from '../views/send-receive.js';
+
 import {
-  throwIfNotACurrency,
   throwIfNotArrayOfCurrencies,
   throwIfNotAFunction,
   throwIfNotANumber,
@@ -10,8 +11,20 @@ import {
   UnknownEventError
 } from './util.js';
 
+/**
+ * @typedef {import('../../fetch-currencies.js').currency} currency
+ */
 
+/**
+ * Represents a model for {@link YouSendReceiveView}.
+ */
 class YouSendReceive {
+  /**
+   * Creates a new instance of {@link YouSendReceive} model.
+   * @param {YouSendModel} youSendModel An instance of {@link YouSendModel}. 
+   * @param {YouReceiveModel} youReceiveModel An instance of {@link YouReceiveModel}.
+   * @param {currency[]} allCurrencies An array of {@link currency currencies}.
+   */
   constructor(youSendModel, youReceiveModel, allCurrencies) {
     if (!(youSendModel instanceof YouSendModel)) {
       throw new TypeError('Expected youSendModel to be YouSendModel');
@@ -47,6 +60,9 @@ class YouSendReceive {
     this.attachListeners();
   }
 
+  /**
+   * Attaches the listeners to inner models.
+   */
   attachListeners() {
     this.youSendModel.addEventListener('updateCurrency', this.youSendModelUpdateCurrencyListener);
     this.youSendModel.addEventListener('updateAmount', this.youSendModelUpdateAmountListener);
@@ -54,6 +70,9 @@ class YouSendReceive {
     this.youReceiveModel.addEventListener('updateAmount', this.youReceiveModelUpdateAmountListener);
   }
 
+  /**
+   * Detaches the listeners from inner models.
+   */
   detachListeners() {
     this.youSendModel.removeEventListener('updateCurrency', this.youSendModelUpdateCurrencyListener);
     this.youSendModel.removeEventListener('updateAmount', this.youSendModelUpdateAmountListener);
@@ -87,17 +106,27 @@ class YouSendReceive {
   }
 
   /**
-   * Updates allCurrencies array in all child models
+   * Updates allCurrencies array in all child models.
    */
   updateAllCurrenciesDownstream() {
     this.youReceiveModel.allCurrencies = this.cryptos.filter(c => c.id !== this.youSendModel.currency.id);
     this.youSendModel.allCurrencies = this.cryptos.filter(c => c.id !== this.youReceiveModel.currency.id);
   }
 
+  /**
+   * Gets an array of {@link currency} stored in the model.
+   * 
+   * @returns {currency[]}
+   */
   get allCurrencies() {
     return this.cryptos;
   }
 
+  /**
+   * Sets an array of {@link currency}.
+   * 
+   * @param {currency[]} allCurrencies An array containing all cryptocurrencies for the model.
+   */
   set allCurrencies(allCurrencies) {
     throwIfNotArrayOfCurrencies(allCurrencies);
 
@@ -108,6 +137,12 @@ class YouSendReceive {
     this.allCurrenciesUpdateListeners.forEach(callback => callback(this.cryptos));
   }
 
+  /**
+   * Adds an event listener callback to model, to track the event of {@link event type} of the model
+   * 
+   * @param {'swap' | 'updateAllCurrencies'} event An type of event to attach listener to.
+   * @param {(e: any) => void} callback A callback accepting some data, if available.
+   */
   addEventListener(event, callback) {
     throwIfNotAString(event);
     throwIfNotAFunction(callback);
@@ -124,6 +159,14 @@ class YouSendReceive {
     }
   }
 
+  /**
+   * Removes event listener from the model, if added previously.
+   * 
+   * If no event listener is found, the {@link Error} is thrown.
+   * 
+   * @param {'swap' | 'updateAllCurrencies'} event An type of event to remove listener from.
+   * @param {(e: any) => void} callback A callback provided in {@link addEventListener()}.
+   */
   removeEventListener(event, callback) {
     throwIfNotAString(event);
     throwIfNotAFunction(callback);
@@ -154,6 +197,9 @@ class YouSendReceive {
     targetArr.splice(idx, 1);
   }
 
+  /**
+   * Swaps the model state between inner {@link YouSendModel} and {@link YouReceiveModel} models.
+   */
   swap() {
     const [sendCurrency, receiveCurrency] = [
       this.youSendModel.currency,

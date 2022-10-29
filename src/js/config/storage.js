@@ -1,9 +1,11 @@
+import { changeSellBuyToExchangeRedirect } from "../files/script.js";
+
 /**
  * `localStorage` configuration.
  * 
  * Contains tokenNames for browser's `localStorage`.
  * 
- * See also `changeSellBuyToExchangeRedirect()` definition in `script.js`.
+ * See also {@link changeSellBuyToExchangeRedirect()} definition.
  */
 const storageConfig = {
   /**

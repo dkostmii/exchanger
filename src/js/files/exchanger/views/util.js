@@ -7,6 +7,14 @@ import { minAmountUsdt } from "../../../config/usdt.js";
 import $ from 'jquery';
 
 /**
+ * @typedef {import('../../fetch-currencies.js').currency} currencyData
+ */
+
+/**
+ * @typedef {import('../model/util.js').currencyDataPair} currencyDataPair
+ */
+
+/**
  * The identifier of **Exchanger** `<form>` element from `exchanger.html` page.
  */
 export const exFormId = '#ex-form';
@@ -23,18 +31,35 @@ export const exFormId = '#ex-form';
  */
 export const separator = ' | ';
 
+/**
+ * Encodes a HTML characters in {@link text}, so the {@link text} is safe to append inside HTML element as plain text.
+ * @param {string} text Unencoded HTML text.
+ * @returns A string containing encoded text.
+ */
 export function htmlEncode(text) {
   throwIfNotAString(text);
 
   return $('<div />').text(text).html();
 }
 
+/**
+ * Decodes a HTML encoded characters in {@link html}, so the {@link html} becomes dangerous to append inside HTML element as plain text.
+ * 
+ * @param {string} html Encoded HTML text.
+ * @returns A string containing unencoded HTML text.
+ */
 export function htmlDecode(html) {
   throwIfNotAString(html);
 
   return $('<div />').html(html).text();
 }
 
+/**
+ * Get a string containing currency pair names separated by {@link separator}.
+ * 
+ * @param {currencyDataPair} currencyPair A pair of {@link currencyData currencies}.
+ * @returns A string containing currency pair names separated by {@link separator}.
+ */
 export function getCurrencyPairName(currencyPair) {
   throwIfNotPairOfCurrencies(currencyPair);
 
@@ -43,6 +68,12 @@ export function getCurrencyPairName(currencyPair) {
   return `${sendCurrency.name}${separator}${receiveCurrency.name}`;
 }
 
+/**
+ * Get a string containing human-readable message abount minimum amount of each of {@link currencyPair}.
+ * 
+ * @param {currencyDataPair} currencyPair A pair of {@link currencyData currencies}.
+ * @returns A string containing human-readable message abount minimum amount of each of {@link currencyPair}.
+ */
 export function getCurrencyAttention(currencyPair) {
   throwIfNotPairOfCurrencies(currencyPair);
 
@@ -54,6 +85,13 @@ export function getCurrencyAttention(currencyPair) {
   return `Minimum ${preCheckInput(minAmountUsdt / sendPrice)} ${sendShort} (${preCheckInput(minAmountUsdt / receivePrice)} ${receiveShort})`;
 }
 
+/**
+ * Get a summary text for exchange operation.
+ * 
+ * @param {YouSendModel} youSendModel A model containing information about currency to send.
+ * @param {YouReceiveModel} youReceiveModel A model containing information about currency to receive.
+ * @returns A string containing summary text.
+ */
 export function getFieldText(youSendModel, youReceiveModel) {
   if (!(youSendModel instanceof YouSendModel)) {
     throw new TypeError('Expected youSendModel to be YouSendModel.');
@@ -84,12 +122,24 @@ export class ElementNotFoundError extends Error {
   }
 }
 
+/**
+ * Get a string containing {@link currencyData.name} and {@link currencyData.short} separated by {@link separator}.
+ * 
+ * @param {currencyData} currency A currency data object.
+ * @returns A string containing {@link currencyData.name} and {@link currencyData.short} separated by {@link separator}.
+ */
 export function getCurrencyTitle(currency) {
   throwIfNotACurrency(currency);
 
   return `${currency.name}${separator}${currency.short}`;
 }
 
+/**
+ * Get a string containing {@link YouSendModel.amount} and {@link currencyData.short} separated by {@link separator}.
+ * 
+ * @param {YouSendModel | YouReceiveModel} model A model containing information about currency.
+ * @returns A string containing {@link YouSendModel.amount} and {@link currencyData.short} separated by {@link separator}.
+ */
 export function getCurrencyResultValue(model) {
   if (!(model instanceof YouSendModel || model instanceof YouReceiveModel)) {
     throw new TypeError('Expected model to be either YouSendModel or YouReceiveModel.');
@@ -159,6 +209,13 @@ export function sanitizeNumberInput(input) {
   }
 }
 
+/**
+ * Replaces all trailing periods `.` in the input with `.0` or `0.`.
+ * 
+ * For example: `.123456` will become `0.123456` and `123456.` will become `123456.0`.
+ * 
+ * @param {HTMLInputElement} input A input to be processed. Must have `type="number"` or it will not be affected.
+ */
 export function replaceTrailingPeriods(input) {
   if (!(input instanceof HTMLInputElement)) {
     throw new TypeError('Expected input to be HTMLInputElement');
@@ -173,6 +230,11 @@ export function replaceTrailingPeriods(input) {
   }
 }
 
+/**
+ * Add a `0` char if the input is empty.
+ * 
+ * @param {HTMLInputElement} input A input to be processed. Must have `type="number"` or it will not be affected.
+ */
 export function emptyNumberInputCheck(input) {
   if (!(input instanceof HTMLInputElement)) {
     throw new TypeError('Expected input to be HTMLInputElement');

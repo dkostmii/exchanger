@@ -13,7 +13,18 @@ import { htmlEncode } from './util.js';
 
 import $ from 'jquery';
 
+/**
+ * Represents a view logic for **You send** field at **Exchanger** page.
+ * 
+ * Uses {@link YouSendModel} as state storage.
+ */
 class YouSendView {
+  /**
+   * Creates a new instance of {@link YouSendView}.
+   * 
+   * @param {YouSendModel} youSendModel A model where to store view state.
+   * @param {Element} formElement A form {@link Element}.
+   */
   constructor(youSendModel, formElement) {
     if (!(youSendModel instanceof YouSendModel)) {
       throw new TypeError('Expected youSendModel to be YouSendModel');
@@ -110,6 +121,9 @@ class YouSendView {
     this.model.addEventListener('updateAllCurrencies', this.allCurrenciesListener);
   }
 
+  /**
+   * Initialized the view, calling the view's listeners.
+   */
   init() {
     this.currencyListener(this.model.currency);
     this.amountListener({ amount: this.model.amount });
