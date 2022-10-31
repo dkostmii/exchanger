@@ -101,22 +101,19 @@
 		opacity: 0.4;
 
 		&:hover {
-			background: #fff;
+			background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(0deg, #FFFFFF, #FFFFFF);
 			-webkit-background-clip: text;
 			background-clip: text;
 			-webkit-text-fill-color: transparent;
+			transition: all 0.2s ease;
 		}
 
 		&:active {
-			background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
-linear-gradient(0deg, #676673, #676673);
-		}
-
-		@media (any-hover: target) {
-			&:target {
-				background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
-	linear-gradient(0deg, #676673, #676673);
-			}
+			background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), linear-gradient(0deg, #FFFFFF, #FFFFFF);
+			-webkit-background-clip: text;
+			background-clip: text;
+			-webkit-text-fill-color: transparent;
+			transition: all 0.2s ease;
 		}
 
 		@media (max-width: $mobile) {
