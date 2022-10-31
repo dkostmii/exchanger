@@ -41,7 +41,7 @@ export const breakPoints = [
  * @type {number} The duration of animation in seconds.
  *
  */
-const numberAnimationDurationSeconds = 10;
+const numberAnimationDurationSeconds = 5;
 
 /**
  * `5 years on the market` moon title animation duration.
