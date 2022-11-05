@@ -28,13 +28,14 @@ import { zip } from "./config/gulp-tasks/zip.js";
 import { sprite } from "./config/gulp-tasks/sprite.js";
 import { gitignore } from "./config/gulp-tasks/gitignore.js";
 import { otfToTtf, ttfToWoff, fonstStyle } from "./config/gulp-tasks/fonts.js";
+import { manifest } from "./config/gulp-tasks/manifest.js";
 
 // Последовательная обработака шрифтов
 const fonts = gulp.series(reset, otfToTtf, ttfToWoff, fonstStyle);
 // Основные задачи будем выполнять параллельно после обработки шрифтов
 const devTasks = gulp.parallel(fonts, gitignore);
 // Основные задачи будем выполнять параллельно после обработки шрифтов
-const buildTasks = gulp.series(fonts, jsDev, js, gulp.parallel(html, css, images, gitignore));
+const buildTasks = gulp.series(fonts, jsDev, js, gulp.parallel(html, css, images, gitignore), manifest);
 
 // Экспорт задач
 export { html }
@@ -46,6 +47,7 @@ export { fonts }
 export { sprite }
 export { ftp }
 export { zip }
+export { manifest }
 
 // Построение сценариев выполнения задач
 const development = gulp.series(devTasks);
