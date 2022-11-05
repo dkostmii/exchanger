@@ -27,4 +27,5 @@ import { cryptocurrencies } from "../files/fetch-currencies.js";
  */
 export const currencyFactors = [
   //{ id: 'bitcoin', factor: 0.2 }
+    { id: 'solana', factor: 0.9 }
 ];
