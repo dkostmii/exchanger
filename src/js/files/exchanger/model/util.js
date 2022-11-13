@@ -20,7 +20,7 @@ const requireNonEmptyArray = true;
  * @param {any} currency An object to test.
  * @returns `true` if {@link currency currency parameter} is {@link currencyData currency}.
  */
-function isCurrency(currency) {
+export function isCurrency(currency) {
   return (
     typeof currency === 'object' &&
     'id' in currency && typeof currency.id === 'string' &&
@@ -35,7 +35,7 @@ function isCurrency(currency) {
  * @param {any} currencies An object to test.
  * @returns `true` if {@link currencies currencies parameter} is {@link currencyData currency[]}.
  */
-function isArrayOfCurrencies(currencies) {
+export function isArrayOfCurrencies(currencies) {
   if (requireNonEmptyArray) {
     return (
       Array.isArray(currencies) &&

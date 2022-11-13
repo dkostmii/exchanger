@@ -83,7 +83,7 @@ export function findCurrencyFactor(crypto) {
 
 /**
  * Loads the cryptocurrency data from API. See {@link https://www.coingecko.com/en/api/documentation Coingecko API documentation}
- * @returns {Promise<currency | string>} A {@link Promise} containing either an **Array** of {@link currency} data or **string** with error.
+ * @returns {Promise<currency[] | string>} A {@link Promise} containing either an **Array** of {@link currency} data or **string** with error.
  */
 export async function loadCryptos() {
   return new Promise((res, rej) => {
