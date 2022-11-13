@@ -12,7 +12,7 @@ The application configuration files are placed in `src/js/config/` folder:
 
     To obtain cryptocurrency identifier (the `id` property), proceed to [`fetch-currencies.js`](../src/js/files/fetch-currencies.js) file.
 
-    You might also want to read [Coingecko API Documentation](https://www.coingecko.com/en/api/documentation).
+    You might also want to read [Binance API V3 (Spot) Documentation](https://binance-docs.github.io/apidocs/spot/en).
 
 - [`exchanger.js`](../src/js/config/exchanger.js) contains a data for **Exchanger** page logic, including data to connect to Telegram.
 

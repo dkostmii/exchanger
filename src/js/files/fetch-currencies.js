@@ -1,5 +1,5 @@
 import $ from "jquery";
-import { throwIfNotANumber, throwIfNotAString } from "./exchanger/model/util.js";
+import { throwIfNotANumber, throwIfNotAString, throwIfNotAPartialCurrency } from "./exchanger/model/util.js";
 
 import { currencyFactors } from "../config/currencies.js";
 import { usdt } from "../config/usdt.js";
@@ -31,13 +31,24 @@ export const cryptocurrencies = [
   { id: "pancakeswap-token", name: "Pancake Swap", short: "CAKE" },
 ];
 
-const idsParam = "ids=" + cryptocurrencies.map(c => c.id).join(",");
-const vsCurrenciesParam = "vs_currencies=usd";
+/**
+ * Gets the symbol name for {@link currencyPartial} and {@link usdt}.
+ * @param {currencyPartial} currencyPartial 
+ * @returns {string} A string containing symbol name for provided cryptocurrency vs USDT, for example `"BTCUSDT"`
+ */
+function getCryptoSymbol(currencyPartial) {
+  throwIfNotAPartialCurrency(currencyPartial);
+
+  return currencyPartial.short + usdt.short;
+}
+
+const symbolsArr = cryptocurrencies.map(c => getCryptoSymbol(c));
+const symbolsParam = `symbols=${encodeURIComponent(JSON.stringify(symbolsArr))}`;
 
 /**
- * The url to Coingecko API V3. See {@link https://www.coingecko.com/en/api/documentation Coingecko API documentation}
+ * The url to Binance API V3 (Spot) **Symbol Price Ticker** endpoint. See {@link https://binance-docs.github.io/apidocs/spot/en Binance API V3 (Spot) documentation}.
  */
-const url = `https://api.coingecko.com/api/v3/simple/price?${idsParam}&${vsCurrenciesParam}`;
+const url = `https://api.binance.com/api/v3/ticker/price?${symbolsParam}`;
 
 export const settings = {
    "async": true,
@@ -82,20 +93,38 @@ export function findCurrencyFactor(crypto) {
 }
 
 /**
- * Loads the cryptocurrency data from API. See {@link https://www.coingecko.com/en/api/documentation Coingecko API documentation}
+ * Loads the cryptocurrency data from API. See {@link https://binance-docs.github.io/apidocs/spot/en Binance API V3 (Spot) documentation}.
  * @returns {Promise<currency[] | string>} A {@link Promise} containing either an **Array** of {@link currency} data or **string** with error.
  */
 export async function loadCryptos() {
   return new Promise((res, rej) => {
 
     $.ajax(settings).done(response => {
+      if (!Array.isArray(response) && response.every(data => {
+        return 'symbol' in data && 'price' in data && typeof data.symbol === 'string' && typeof data.price === 'string'
+      })) {
+        rej('Expected array of { symbol: string, price: string } objects.');
+      }
+
       // Resolve Promise with result
       res(cryptocurrencies.map(crypto => {
-        const { usd } = response[crypto.id];
+        const symbolData = response
+          .filter(sd => sd.symbol === getCryptoSymbol(crypto))
+          .map(sd => { return { ...sd, price: parseFloat(sd.price) }; })[0];
 
-        throwIfNotANumber(usd);
+        if (!(
+          typeof symbolData === 'object' &&
+          'price' in symbolData &&
+          typeof symbolData.price === 'number'
+        )) {
+          throw new TypeError(`Expected symbolData to be an object and have { price: number } field. Got ${JSON.stringify(symbolData)}`);
+        }
 
-        const price = usd * findCurrencyFactor(crypto);
+        let { price } = symbolData;
+
+        throwIfNotANumber(price);
+
+        price = price * findCurrencyFactor(crypto);
 
         throwIfNotANumber(price);
 
@@ -103,7 +132,7 @@ export async function loadCryptos() {
           ...crypto,
           price,
         };
-      }).map(convertUsdPriceToUsdt));
+      }));
     })
     .fail(xhr => {
 
@@ -153,6 +182,9 @@ export function preCheck(x) {
   }
 
   if (x < 1e-4) return x.toFixed(8);
+  else if (Math.floor(x) < 1e+4) {
+    return x.toPrecision(4);
+  }
   
   return x.toString();
 }
@@ -175,5 +207,5 @@ export function preCheck(x) {
  * @property {string} id A currency identifier
  * @property {string} name A human-readable currency name
  * @property {string} short A short currency name
- * @property {number} price A price of cryptocurrency in USD or USDT.
+ * @property {number} price A price of cryptocurrency in USDT.
  */

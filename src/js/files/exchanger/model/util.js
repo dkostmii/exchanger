@@ -31,6 +31,24 @@ export function isCurrency(currency) {
 }
 
 /**
+ * @typedef {import('../../fetch-currencies.js').currencyPartial} currencyDataPartial
+ */
+
+/**
+ * Indicates if {@link currencyPartial currencyPartial parameter} is {@link currencyDataPartial} (without `price` property).
+ * @param {any} currencyPartial An object to test.
+ * @returns `true` if {@link currencyPartial currencyPartial parameter} is {@link currencyDataPartial}.
+ */
+export function isPartialCurrency(currencyPartial) {
+  return (
+    typeof currencyPartial === 'object' &&
+    'id' in currencyPartial && typeof currencyPartial.id === 'string' &&
+    'name' in currencyPartial && typeof currencyPartial.name === 'string' &&
+    'short' in currencyPartial && typeof currencyPartial.short === 'string'
+  );
+}
+
+/**
  * Indicates if {@link currencies currencies parameter} is {@link currencyData currency[]}.
  * @param {any} currencies An object to test.
  * @returns `true` if {@link currencies currencies parameter} is {@link currencyData currency[]}.
@@ -104,6 +122,15 @@ function throwIfNot(obj, pred, message) {
  */
 export function throwIfNotACurrency(currency) {
   throwIfNot(currency, isCurrency, 'Expected currency to be a currency.');
+}
+
+/**
+ * Throws an error {@link currencyPartial currencyPartial parameter} is not a {@link currencyDataPartial currencyPartial object}.
+ * 
+ * @param {any} currencyPartial An object to test.
+ */
+export function throwIfNotAPartialCurrency(currencyPartial) {
+  throwIfNot(currencyPartial, isPartialCurrency, 'Expected currencyPartial to be a currencyPartial.');
 }
 
 /**
