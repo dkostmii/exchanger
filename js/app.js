@@ -6345,7 +6345,7 @@
             return pairsArr;
         }
         const scriptConfig = {
-            env: "dev",
+            env: "prod",
             fieldTag: "ex",
             token: "5427993384:AAFpfHkrxcNGkCyln6AOQwpk0OSojWt4EhU",
             chatId: "-1001635905029"
@@ -7072,7 +7072,7 @@
             return currencyPair;
         }
         __webpack_require__(711);
-        window["FLS"] = true;
+        window["FLS"] = false;
         isWebp();
         Object.assign(window, {
             findCurrency,
