@@ -5,7 +5,7 @@
 const scriptConfig = {
     /** The token which identifies some **Exchanger** form fields, such as `<input name="ex-card">` or `<input name="ex-address"`,
  * the name starts with this token. */
-    env: 'dev',
+    env: 'prod',
     /** The token which identifies some **Exchanger** form fields, such as `<input name="ex-card">` or `<input name="ex-address"`,
  * the name starts with this token. */
     fieldTag: 'ex',
