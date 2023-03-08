@@ -17,6 +17,7 @@ import YouReceiveModel from "./model/you-receive.js";
 
 // Views
 import CurrencyView from './views/currency.js';
+import AddressCardView from "./views/address-card.js";
 
 /**
  * Entry point for the **Exchanger** page.
@@ -53,6 +54,7 @@ export async function exchangerPageLoad() {
   const formElement = document.querySelector(exFormId);
 
   new CurrencyView(currencyModel, formElement);
+  new AddressCardView(youSendReceiveModel, formElement);
 }
 
 /**

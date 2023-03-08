@@ -6,6 +6,8 @@ import { minAmountUsdt } from "../../../config/usdt.js";
 
 import $ from 'jquery';
 
+import scriptConfig from '../../../config/exchanger.js';
+
 /**
  * @typedef {import('../../fetch-currencies.js').currency} currencyData
  */
@@ -271,3 +273,68 @@ export function preCheckInput(x) {
 
   return x.toString();
 }
+
+/**
+ * @param {Element} wrapperEl Wrapper element containing `<input>` element
+ * in which {@link scriptConfig.fieldTag} will be removed.
+ */
+function removeFieldTag(wrapperEl, ignoreNameAtrr = false) {
+    const inputEl = validateWrapperEl(wrapperEl, ignoreNameAtrr);
+
+    const { fieldTag } = scriptConfig;
+
+    const fieldTagStr = `${fieldTag}-`;
+    
+    if (inputEl.hasAttribute('name')) {
+        if (inputEl.name.startsWith(fieldTagStr)) {
+            inputEl.name = inputEl.name.replace(fieldTagStr, '');
+        }
+    }
+}
+
+/**
+ * @param {Element} wrapperEl Wrapper element containing `<input>` element
+ * in which {@link scriptConfig.fieldTag} will be added.
+ */
+function addFieldTag(wrapperEl, ignoreNameAttr = false) {
+    const inputEl = validateWrapperEl(wrapperEl, ignoreNameAttr);
+    
+    const { fieldTag } = scriptConfig;
+
+    const fieldTagStr = `${fieldTag}-`;
+    
+    if (inputEl.hasAttribute('name')) {
+        if (!inputEl.name.startsWith(fieldTagStr)) {
+            inputEl.name = fieldTagStr + inputEl.name;
+        }
+    }
+}
+
+function validateWrapperEl(wrapperEl, ignoreNameAttr = false) {
+    if (!(wrapperEl instanceof Element)) {
+        throw new ElementNotFoundError('[param of switchFieldTag()] wrapperEl');
+    }
+
+    const inputEl = wrapperEl.querySelector('input');
+
+    if (!(inputEl instanceof Element)) {
+        throw new ElementNotFoundError('input');
+    }
+
+    if (!inputEl.hasAttribute('name') && !ignoreNameAttr) {
+        throw new Error('input element is missing "name" attribute');
+    }
+
+    return inputEl;
+}
+
+export function enableElement(wrapperEl) {
+    addFieldTag(wrapperEl, true);
+    wrapperEl.classList.remove('hidden');
+}
+
+export function disableElement(wrapperEl) {
+    removeFieldTag(wrapperEl, true);
+    wrapperEl.classList.add('hidden');
+}
+

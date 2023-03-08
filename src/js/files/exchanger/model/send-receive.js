@@ -81,8 +81,8 @@ class YouSendReceive {
   }
 
   // Listeners
-  youSendModelUpdateCurrencyListener(currency) {
-    this.youReceiveModel.allCurrencies = this.cryptos.filter(c => c.id !== currency.id);
+  youSendModelUpdateCurrencyListener() {
+    this.updateAllCurrenciesDownstream();
   }
 
   youSendModelUpdateAmountListener({ amountUsdt }) {
@@ -93,8 +93,8 @@ class YouSendReceive {
     }
   }
 
-  youReceiveModelUpdateCurrencyListener(currency) {
-    this.youSendModel.allCurrencies = this.cryptos.filter(c => c.id !== currency.id);
+  youReceiveModelUpdateCurrencyListener() {
+    this.updateAllCurrenciesDownstream();
   }
 
   youReceiveModelUpdateAmountListener({ amountUsdt }) {

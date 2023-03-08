@@ -31,7 +31,7 @@
             grid-column: 9 / 10;
             
             @include mq($tablet-large) {
-                grid-column: 7 / 8;
+                grid-column: 6 / 8;
             }
 
             @include mq($phablet) {
@@ -52,7 +52,7 @@
         }
 
         &.address {
-            grid-column: 1 / 7;
+            grid-column: 1 / 6;
 
             @include mq($phablet) {
                 grid-column: 1 / 13;
@@ -60,7 +60,7 @@
         }
 
         &.card {
-            grid-column: 7 / 13;
+            grid-column: 1 / 6;
 
             @include mq($phablet) {
                 grid-column: 1 / 13;
@@ -68,10 +68,10 @@
         }
 
         &.copy-address {
-            grid-column: 1 / 7;
+            grid-column: 6 / 10;
 
-            @include mq($laptop) {
-                grid-column: 1 / 13;
+            @include mq($tablet-large) {
+                grid-column: 8 / 13;
             }
 
             @include mq($phablet) {
@@ -80,10 +80,10 @@
         }
 
         &.copy-ua-card {
-            grid-column: 7 / 10;
+            grid-column: 6 / 10;
 
-            @include mq($laptop) {
-                grid-column: 1 / 7;
+            @include mq($tablet-large) {
+                grid-column: 8 / 13;
             }
 
             @include mq($phablet) {
@@ -92,10 +92,10 @@
         }
 
         &.copy-usd-card {
-            grid-column: 10 / 13;
+            grid-column: 6 / 10;
 
-            @include mq($laptop) {
-                grid-column: 7 / 13;
+            @include mq($tablet-large) {
+                grid-column: 8 / 13;
             }
 
             @include mq($phablet) {
